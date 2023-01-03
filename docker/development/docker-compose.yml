@@ -1,0 +1,15 @@
+version: '3.9'
+
+services:
+  nextjs-events-app:
+    build:
+      context: ../../
+      dockerfile: docker/development/Dockerfile
+    container_name: nextjs-events-app
+    # Mapping host directories to directories on the container. This is done so that the updates in the local folder reflect on the container in real time and vice versa
+    volumes:
+      - ../../:/app
+      - /app/node_modules
+    ports:
+      - 3000:3000
+
