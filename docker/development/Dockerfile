@@ -7,6 +7,8 @@ WORKDIR /app
 
 COPY package.json package-lock.json ./
 
+USER node
+
 RUN \
     if [ -f package-lock.json ]; then npm ci; \
     else echo "Lockfile not found." && exit 1; \
@@ -21,5 +23,7 @@ COPY --from=dependencies /app/node_modules ./node_modules
 COPY . .
 
 EXPOSE 3000
+
+USER node
 
 CMD ["npm", "run", "dev"]
