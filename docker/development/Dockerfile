@@ -7,8 +7,6 @@ WORKDIR /app
 
 COPY package.json package-lock.json ./
 
-USER node
-
 RUN \
     if [ -f package-lock.json ]; then npm ci; \
     else echo "Lockfile not found." && exit 1; \
@@ -19,8 +17,8 @@ FROM node:18.12.1-alpine AS development-server
 
 WORKDIR /app
 
-COPY --from=dependencies /app/node_modules ./node_modules
-COPY . .
+COPY --from=dependencies --chown=node:node /app/node_modules ./node_modules
+COPY --chown=node:node . .
 
 EXPOSE 3000
 
